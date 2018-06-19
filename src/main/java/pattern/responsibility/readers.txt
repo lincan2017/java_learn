@@ -1,0 +1,4 @@
+pattern.responsibility.TxtTextReader
+pattern.responsibility.HtmlTextReader
+pattern.responsibility.DocTextReader
+pattern.responsibility.DocxTextReader
