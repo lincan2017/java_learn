@@ -1,6 +1,6 @@
 package headfirst.pattern.factory.pizzastore;
 
-import headfirst.pattern.factory.SimplePizzaFactory;
+import headfirst.pattern.factory.pizzafactory.SimplePizzaFactory;
 import headfirst.pattern.factory.pizza.Pizza;
 
 /**
@@ -13,7 +13,7 @@ public class PizzaStore {
     public PizzaStore(SimplePizzaFactory simplePizzaFactory) {
         this.simplePizzaFactory = simplePizzaFactory;
     }
-    
+
     /**
      * 订pizza
      * @author : Lin Can

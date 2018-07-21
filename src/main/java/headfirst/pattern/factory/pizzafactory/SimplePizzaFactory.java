@@ -1,5 +1,6 @@
-package headfirst.pattern.factory;
+package headfirst.pattern.factory.pizzafactory;
 
+import headfirst.pattern.factory.PizzaType;
 import headfirst.pattern.factory.pizza.*;
 import org.apache.commons.lang3.StringUtils;
 
@@ -15,9 +16,7 @@ public class SimplePizzaFactory {
      * @author : Lin Can
      * @date: 2018/7/21 11:03
      */
-    public enum PizzaType {
-        CHEESE,PEPPERONI,CLAM,VEGGIE;
-    }
+
 
     /**
      * 根据不同的类型创建不同的pizza
