@@ -21,21 +21,29 @@ import org.junit.Test;
 public class RemoteControllerTest {
     @Test
     public void test() {
+        //遥控器槽数
         int slotCount = 7;
+        //多槽位遥控器
         RemoteController remoteController = new RemoteController(slotCount);
 
+        //客厅的灯
         Light livingRoomLight = new Light("LivingRoom");
+        //房间的灯
         Light bedRoomLight = new Light("BedRoom");
 
+        //风扇
         CellingFan fan = new CellingFan("LivingRoom");
 
+        //音响
         Stereo stereo = new Stereo("LivingRoom");
 
+        //开命令
         LightOnCommand livingRoomLightOnCommand = new LightOnCommand(livingRoomLight);
         LightOnCommand bedRoomLightOnCommand = new LightOnCommand(bedRoomLight);
         CellingFanOnCommand cellingFanOnCommand = new CellingFanOnCommand(fan);
         StereoOnCommand stereoOnCommand = new StereoOnCommand(stereo);
 
+        //关命令
         LightOffCommand livingRoomLightOffCommand = new LightOffCommand(livingRoomLight);
         LightOffCommand bedRoomLightOffCommand = new LightOffCommand(bedRoomLight);
         CellingFanOffCommand cellingFanOffCommand = new CellingFanOffCommand(fan);
@@ -47,6 +55,7 @@ public class RemoteControllerTest {
         remoteController.setCommands(2,cellingFanOnCommand,cellingFanOffCommand);
         remoteController.setCommands(3,stereoOnCommand,stereoOffCommand);
 
+        //操作遥控器的结果和直接操作电器的结果一样
         Assert.assertEquals(livingRoomLight.on(),remoteController.onButtonWasPressed(0));
         Assert.assertEquals(livingRoomLight.off(),remoteController.offButtonWasPressed(0));
         Assert.assertEquals(bedRoomLight.on(),remoteController.onButtonWasPressed(1));
