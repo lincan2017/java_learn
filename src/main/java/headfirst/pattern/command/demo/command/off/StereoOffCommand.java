@@ -2,6 +2,7 @@ package headfirst.pattern.command.demo.command.off;
 
 import headfirst.pattern.command.demo.command.Command;
 import headfirst.pattern.command.demo.elecapp.Stereo;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author : Lin Can
@@ -17,5 +18,14 @@ public class StereoOffCommand implements Command {
     @Override
     public String execute() {
         return stereo.off();
+    }
+
+    @Override
+    public String undo() {
+        return stereo.on() +
+                StringUtils.LF +
+                stereo.setCD() +
+                StringUtils.LF +
+                stereo.setVolume(11);
     }
 }

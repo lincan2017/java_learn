@@ -59,14 +59,29 @@ public class RemoteControllerTest {
         Assert.assertEquals(livingRoomLight.on(),remoteController.onButtonWasPressed(0));
         Assert.assertEquals(livingRoomLight.off(),remoteController.offButtonWasPressed(0));
         Assert.assertEquals(bedRoomLight.on(),remoteController.onButtonWasPressed(1));
+
+        //撤销功能
+        Assert.assertEquals(bedRoomLight.off(),remoteController.undo());
+
         Assert.assertEquals(bedRoomLight.off(),remoteController.offButtonWasPressed(1));
         Assert.assertEquals(fan.high(),remoteController.onButtonWasPressed(2));
         Assert.assertEquals(fan.off(),remoteController.offButtonWasPressed(2));
+
+        //撤销功能
+        Assert.assertEquals(fan.high(),remoteController.undo());
+
         Assert.assertEquals(stereo.on() +
                 StringUtils.LF +
                 stereo.setCD() +
                 StringUtils.LF +
                 stereo.setVolume(11), remoteController.onButtonWasPressed(3));
         Assert.assertEquals(stereo.off(),remoteController.offButtonWasPressed(3));
+
+        //撤销功能
+        Assert.assertEquals(stereo.on() +
+                StringUtils.LF +
+                stereo.setCD() +
+                StringUtils.LF +
+                stereo.setVolume(11), remoteController.undo());
     }
 }

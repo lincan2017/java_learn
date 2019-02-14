@@ -10,4 +10,6 @@ public interface Command {
      * @return result
      */
     String execute ();
+
+    String undo();
 }

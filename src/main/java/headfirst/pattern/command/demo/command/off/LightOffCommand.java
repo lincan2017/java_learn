@@ -19,4 +19,9 @@ public class LightOffCommand implements Command {
     public String execute() {
         return light.off();
     }
+
+    @Override
+    public String undo() {
+        return light.on();
+    }
 }

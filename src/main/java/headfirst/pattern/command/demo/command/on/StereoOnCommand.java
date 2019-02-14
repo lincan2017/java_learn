@@ -24,4 +24,9 @@ public class StereoOnCommand implements Command {
                 StringUtils.LF +
                 stereo.setVolume(11);
     }
+
+    @Override
+    public String undo() {
+        return stereo.off();
+    }
 }

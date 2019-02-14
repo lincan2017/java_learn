@@ -13,6 +13,8 @@ public class RemoteController {
 
     private Command[] offCommands;
 
+    private Command lastCommand;
+
     private int slotCount;
 
     public RemoteController(int slotCount) {
@@ -22,6 +24,7 @@ public class RemoteController {
 
         //初始化为noCommand对象的数组,则在调用xxButtonWasPressed的时候无需作非空判断
         Command noCommand = new NoCommand();
+        lastCommand = noCommand;
         for (int i = 0; i < slotCount; i++) {
             onCommands[i] = noCommand;
             offCommands[i] = noCommand;
@@ -37,10 +40,19 @@ public class RemoteController {
         if (slot >= slotCount) {
             throw new RuntimeException("ERROR with slot" + slot);
         }
+        lastCommand = onCommands[slot];
         return onCommands[slot].execute();
     }
 
     public String offButtonWasPressed(int slot) {
+        if (slot >= slotCount) {
+            throw new RuntimeException("ERROR with slot" + slot);
+        }
+        lastCommand = offCommands[slot];
         return offCommands[slot].execute();
+    }
+
+    public String undo() {
+        return lastCommand.undo();
     }
 }
