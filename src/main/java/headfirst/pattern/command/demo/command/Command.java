@@ -1,4 +1,4 @@
-package headfirst.pattern.command.demo;
+package headfirst.pattern.command.demo.command;
 
 /**
  * @author : Lin Can

@@ -1,4 +1,6 @@
-package headfirst.pattern.command.demo;
+package headfirst.pattern.command.demo.command;
+
+import headfirst.pattern.command.demo.elecapp.Light;
 
 /**
  * @author : Lin Can
