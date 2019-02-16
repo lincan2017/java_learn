@@ -1,14 +1,11 @@
 package pattern.command;
 
 import headfirst.pattern.command.demo.RemoteController;
+import headfirst.pattern.command.demo.command.Command;
 import headfirst.pattern.command.demo.command.NoCommand;
-import headfirst.pattern.command.demo.command.off.CellingFanOffCommand;
-import headfirst.pattern.command.demo.command.off.LightOffCommand;
-import headfirst.pattern.command.demo.command.off.StereoOffCommand;
+import headfirst.pattern.command.demo.command.off.*;
 import headfirst.pattern.command.demo.command.on.*;
-import headfirst.pattern.command.demo.elecapp.CellingFan;
-import headfirst.pattern.command.demo.elecapp.Light;
-import headfirst.pattern.command.demo.elecapp.Stereo;
+import headfirst.pattern.command.demo.elecapp.*;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -32,17 +29,17 @@ public class RemoteControllerTest {
         CellingFanOnOffSpeedCommand offSpeedCommand = new CellingFanOnOffSpeedCommand(cellingFan);
 
         NoCommand noCommand = new NoCommand();
-        remoteController.setCommands(0,highSpeedCommand,noCommand);
-        remoteController.setCommands(1,mediumSpeedCommand,noCommand);
-        remoteController.setCommands(2,lowSpeedCommand,noCommand);
-        remoteController.setCommands(3,offSpeedCommand,noCommand);
+        remoteController.setCommands(0, highSpeedCommand, noCommand);
+        remoteController.setCommands(1, mediumSpeedCommand, noCommand);
+        remoteController.setCommands(2, lowSpeedCommand, noCommand);
+        remoteController.setCommands(3, offSpeedCommand, noCommand);
 
-        Assert.assertEquals(cellingFan2.high(),remoteController.onButtonWasPressed(0));
-        Assert.assertEquals(cellingFan2.medium(),remoteController.onButtonWasPressed(1));
-        Assert.assertEquals(cellingFan2.low(),remoteController.onButtonWasPressed(2));
-        Assert.assertEquals(cellingFan2.off(),remoteController.onButtonWasPressed(3));
+        Assert.assertEquals(cellingFan2.high(), remoteController.onButtonWasPressed(0));
+        Assert.assertEquals(cellingFan2.medium(), remoteController.onButtonWasPressed(1));
+        Assert.assertEquals(cellingFan2.low(), remoteController.onButtonWasPressed(2));
+        Assert.assertEquals(cellingFan2.off(), remoteController.onButtonWasPressed(3));
 
-        Assert.assertEquals(cellingFan2.low(),remoteController.undo());
+        Assert.assertEquals(cellingFan2.low(), remoteController.undo());
     }
 
     @Test
@@ -76,32 +73,32 @@ public class RemoteControllerTest {
         StereoOffCommand stereoOffCommand = new StereoOffCommand(stereo);
 
         //为每个插槽关联命令
-        remoteController.setCommands(0,livingRoomLightOnCommand,livingRoomLightOffCommand);
-        remoteController.setCommands(1,bedRoomLightOnCommand,bedRoomLightOffCommand);
-        remoteController.setCommands(2,cellingFanOnCommand,cellingFanOffCommand);
-        remoteController.setCommands(3,stereoOnCommand,stereoOffCommand);
+        remoteController.setCommands(0, livingRoomLightOnCommand, livingRoomLightOffCommand);
+        remoteController.setCommands(1, bedRoomLightOnCommand, bedRoomLightOffCommand);
+        remoteController.setCommands(2, cellingFanOnCommand, cellingFanOffCommand);
+        remoteController.setCommands(3, stereoOnCommand, stereoOffCommand);
 
         //操作遥控器的结果和直接操作电器的结果一样
-        Assert.assertEquals(livingRoomLight.on(),remoteController.onButtonWasPressed(0));
-        Assert.assertEquals(livingRoomLight.off(),remoteController.offButtonWasPressed(0));
-        Assert.assertEquals(bedRoomLight.on(),remoteController.onButtonWasPressed(1));
+        Assert.assertEquals(livingRoomLight.on(), remoteController.onButtonWasPressed(0));
+        Assert.assertEquals(livingRoomLight.off(), remoteController.offButtonWasPressed(0));
+        Assert.assertEquals(bedRoomLight.on(), remoteController.onButtonWasPressed(1));
 
         //撤销功能
-        Assert.assertEquals(bedRoomLight.off(),remoteController.undo());
+        Assert.assertEquals(bedRoomLight.off(), remoteController.undo());
 
-        Assert.assertEquals(bedRoomLight.off(),remoteController.offButtonWasPressed(1));
-        Assert.assertEquals(fan.high(),remoteController.onButtonWasPressed(2));
-        Assert.assertEquals(fan.off(),remoteController.offButtonWasPressed(2));
+        Assert.assertEquals(bedRoomLight.off(), remoteController.offButtonWasPressed(1));
+        Assert.assertEquals(fan.high(), remoteController.onButtonWasPressed(2));
+        Assert.assertEquals(fan.off(), remoteController.offButtonWasPressed(2));
 
         //撤销功能
-        Assert.assertEquals(fan.high(),remoteController.undo());
+        Assert.assertEquals(fan.high(), remoteController.undo());
 
         Assert.assertEquals(stereo.on() +
                 StringUtils.LF +
                 stereo.setCD() +
                 StringUtils.LF +
                 stereo.setVolume(11), remoteController.onButtonWasPressed(3));
-        Assert.assertEquals(stereo.off(),remoteController.offButtonWasPressed(3));
+        Assert.assertEquals(stereo.off(), remoteController.offButtonWasPressed(3));
 
         //撤销功能
         Assert.assertEquals(stereo.on() +
@@ -109,5 +106,38 @@ public class RemoteControllerTest {
                 stereo.setCD() +
                 StringUtils.LF +
                 stereo.setVolume(11), remoteController.undo());
+    }
+
+    @Test
+    public void testMacroCommand() {
+        int slotCount = 7;
+        RemoteController remoteController = new RemoteController(slotCount);
+
+        Television television = new Television("LivingRoom");
+        WaterHeater waterHeater = new WaterHeater("BathRoom");
+        Light light = new Light("LivingRoom");
+
+        TelevisionOnCommand televisionOnCommand = new TelevisionOnCommand(television);
+        WaterHeaterOnCommand waterHeaterOnCommand = new WaterHeaterOnCommand(waterHeater);
+        LightOnCommand lightOnCommand = new LightOnCommand(light);
+
+        TelevisionOffCommand televisionOffCommand = new TelevisionOffCommand(television);
+        WaterHeaterOffCommand waterHeaterOffCommand = new WaterHeaterOffCommand(waterHeater);
+        LightOffCommand lightOffCommand = new LightOffCommand(light);
+
+        Command[] onCommands = {televisionOnCommand, waterHeaterOnCommand, lightOnCommand};
+        Command[] offCommands = {televisionOffCommand, waterHeaterOffCommand, lightOffCommand};
+
+        MacroCommand onMacroCommand = new MacroCommand(onCommands);
+        MacroCommand offMacroCommand = new MacroCommand(offCommands);
+
+        remoteController.setCommands(0, onMacroCommand, offMacroCommand);
+
+        Assert.assertEquals(television.on() + waterHeater.on() + light.on(),
+                remoteController.onButtonWasPressed(0));
+        Assert.assertEquals(television.off() + waterHeater.off() + light.off(),
+                remoteController.offButtonWasPressed(0));
+        Assert.assertEquals(television.on() + waterHeater.on() + light.on(),
+                remoteController.undo());
     }
 }
