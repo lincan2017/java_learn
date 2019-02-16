@@ -1,12 +1,11 @@
 package pattern.command;
 
 import headfirst.pattern.command.demo.RemoteController;
+import headfirst.pattern.command.demo.command.NoCommand;
 import headfirst.pattern.command.demo.command.off.CellingFanOffCommand;
 import headfirst.pattern.command.demo.command.off.LightOffCommand;
 import headfirst.pattern.command.demo.command.off.StereoOffCommand;
-import headfirst.pattern.command.demo.command.on.CellingFanOnCommand;
-import headfirst.pattern.command.demo.command.on.LightOnCommand;
-import headfirst.pattern.command.demo.command.on.StereoOnCommand;
+import headfirst.pattern.command.demo.command.on.*;
 import headfirst.pattern.command.demo.elecapp.CellingFan;
 import headfirst.pattern.command.demo.elecapp.Light;
 import headfirst.pattern.command.demo.elecapp.Stereo;
@@ -19,6 +18,33 @@ import org.junit.Test;
  * @date : 2019/2/14 17:11
  */
 public class RemoteControllerTest {
+    @Test
+    public void testCellingFanWithDiffSpeed() {
+        int slotCount = 7;
+        RemoteController remoteController = new RemoteController(slotCount);
+
+        CellingFan cellingFan = new CellingFan("BedRoom");
+        CellingFan cellingFan2 = new CellingFan("BedRoom");
+
+        CellingFanOnHighSpeedCommand highSpeedCommand = new CellingFanOnHighSpeedCommand(cellingFan);
+        CellingFanOnMediumSpeedCommand mediumSpeedCommand = new CellingFanOnMediumSpeedCommand(cellingFan);
+        CellingFanOnLowSpeedCommand lowSpeedCommand = new CellingFanOnLowSpeedCommand(cellingFan);
+        CellingFanOnOffSpeedCommand offSpeedCommand = new CellingFanOnOffSpeedCommand(cellingFan);
+
+        NoCommand noCommand = new NoCommand();
+        remoteController.setCommands(0,highSpeedCommand,noCommand);
+        remoteController.setCommands(1,mediumSpeedCommand,noCommand);
+        remoteController.setCommands(2,lowSpeedCommand,noCommand);
+        remoteController.setCommands(3,offSpeedCommand,noCommand);
+
+        Assert.assertEquals(cellingFan2.high(),remoteController.onButtonWasPressed(0));
+        Assert.assertEquals(cellingFan2.medium(),remoteController.onButtonWasPressed(1));
+        Assert.assertEquals(cellingFan2.low(),remoteController.onButtonWasPressed(2));
+        Assert.assertEquals(cellingFan2.off(),remoteController.onButtonWasPressed(3));
+
+        Assert.assertEquals(cellingFan2.low(),remoteController.undo());
+    }
+
     @Test
     public void test() {
         //遥控器槽数

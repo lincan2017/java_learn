@@ -11,5 +11,9 @@ public interface Command {
      */
     String execute ();
 
+    /**
+     * command undo
+     * @return result
+     */
     String undo();
 }
