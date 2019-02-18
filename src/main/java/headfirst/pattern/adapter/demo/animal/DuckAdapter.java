@@ -1,7 +1,5 @@
 package headfirst.pattern.adapter.demo.animal;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * @author : Lin Can
  * @date : 2019/2/18 9:48
