@@ -1,4 +1,7 @@
-package headfirst.pattern.adapter.demo.animal;
+package headfirst.pattern.adapter.demo;
+
+import headfirst.pattern.adapter.demo.animal.Duck;
+import headfirst.pattern.adapter.demo.animal.Turkey;
 
 /**
  * @author : Lin Can
