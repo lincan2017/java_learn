@@ -1,7 +1,7 @@
 package pattern.adapter;
 
 import headfirst.pattern.adapter.demo.animal.Duck;
-import headfirst.pattern.adapter.demo.animal.DuckAdapter;
+import headfirst.pattern.adapter.demo.DuckAdapter;
 import headfirst.pattern.adapter.demo.animal.RedTurkey;
 import headfirst.pattern.adapter.demo.animal.Turkey;
 import org.junit.Assert;
